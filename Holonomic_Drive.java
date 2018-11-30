@@ -5,10 +5,20 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "Mecanum", group = "Teleop")
-@Disabled
+//@Disabled
 public class Holonomic_Drive extends LinearOpMode {
+
+    /**
+     * Servo HWMAP "2 Servos"
+     */
+
+    Servo redServo;
+
+    int upPos = 1;
+    int downPos = 0;
 
     DcMotor mfr;
     DcMotor mfl;
@@ -20,6 +30,8 @@ public class Holonomic_Drive extends LinearOpMode {
     double speed = 0;
     int mode = 1;
 
+    int redServoPos = 0;
+
     @Override
     public void runOpMode(){
 
@@ -27,10 +39,22 @@ public class Holonomic_Drive extends LinearOpMode {
         mfl = hardwareMap.dcMotor.get("mfl");
         mbl = hardwareMap.dcMotor.get("mbl");
         mbr = hardwareMap.dcMotor.get("mbr");
+        mfr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mfl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mbl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mbr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        redServo = hardwareMap.servo.get("redServo");
 
         waitForStart();
 
         while (opModeIsActive()){
+
+            while (gamepad1.right_bumper == true){
+                redServo.setPosition(0);
+            }
+            while (gamepad1.left_bumper == true) {
+                redServo.setPosition(1);
+            }
 
             override = 0;
 
@@ -46,11 +70,21 @@ public class Holonomic_Drive extends LinearOpMode {
             if (mode == 1)
                 speed = 1;
             if (mode == 2)
-                speed = 0.25;
+                speed = 0.5;
             if (mode == 3)
-                speed = 0.1;
+                speed = 0.25;
             if (mode == 4)
-                speed = 0.09;
+                speed = 0.15;
+
+            if (gamepad1.right_bumper && redServoPos == 1){
+                redServo.setPosition(0);
+                redServoPos = 0;
+            }
+
+            if (gamepad1.right_bumper && redServoPos == 0){
+                redServo.setPosition(1);
+                redServoPos = 1;
+            }
 
             if (gamepad1.y && override == 0){
                 buttons = 1;

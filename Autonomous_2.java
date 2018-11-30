@@ -12,9 +12,9 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name = "Autonomous_Right", group = "Autonomous")
+@Autonomous(name = "Autonomous_Left", group = "Autonomous")
 //@Disabled
-public class Autonomous_1 extends LinearOpMode {
+public class Autonomous_2 extends LinearOpMode {
 
     double speed = 1;
 
@@ -94,7 +94,7 @@ public class Autonomous_1 extends LinearOpMode {
 
             if (firstRun == 0)
                 redServo.setPosition(0);
-                sleep(500);
+            sleep(500);
 
             mfr_encode = mfr.getCurrentPosition();
             mfl_encode = mfl.getCurrentPosition();
@@ -102,7 +102,7 @@ public class Autonomous_1 extends LinearOpMode {
             mbr_encode = mbr.getCurrentPosition();
 
             getRedServo = redServo.getPosition();
-;
+            ;
             robot.frontColorSensor.enableLed(true);
 
             /**
@@ -146,21 +146,10 @@ public class Autonomous_1 extends LinearOpMode {
                 redServo.setPosition(1);
             }
 
-            if (firstRun == 0) {
-
-                Stop(250);
-
-                RotateRight(0.5, 750);
-
-            }
-
-            StrafeRight(1, 1);
 
             firstRun = 1;
 
             telemetry.update();
-
-            sleep(4000);
 
         }
 
